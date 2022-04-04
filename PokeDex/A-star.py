@@ -1,3 +1,7 @@
+import random
+import time
+
+
 class Node():
     #A node class for A* Pathfinding algorithm
 
@@ -21,6 +25,9 @@ def astar(maze, start, end):
     end_node = Node(None, end) # End node with end as position and no parent
     end_node.g = end_node.h = end_node.f = 0
 
+    # Create a timer variable
+    timer = 0
+
     # Initialize both frontier and closed list
     frontier = [] # Nodes that is potential part of the path
     closed_list = [] # Nodes that have been looked upon
@@ -30,6 +37,8 @@ def astar(maze, start, end):
 
     # Loop until you find the end. i.e when there are no more nodes in frontier
     while len(frontier) > 0:
+        # Add the amount of time since the last iteration
+        timer += time.process_time()
         # Get the current node
         current_node = frontier[0] # First node in the frontier list
         current_index = 0 # Set the index to the index of the first item in a list
@@ -101,20 +110,42 @@ def astar(maze, start, end):
             # Add the child to the open list
             frontier.append(child)
 
+        # If the function have run more than 10 seconds, then terminate the algorithm
+        if timer > 10:
+            return False
+
+# function for random generate a maze
+def create_maze(width, height):
+    maze = []
+    for i in range(0, height):
+        line = []
+        for j in range(0, width):
+            if i != 0 and j != 0 and i != height-1 and j != width-1:
+                line.append(random.randint(0, 1))
+            else:
+                line.append(0)
+        maze.append(line)
+    return maze
 
 
 def main():
     # Create a maze
-    maze = [[0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+    #maze = [[0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+    #        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+    #        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+    #        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+    #        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+    #        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+    #        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+    #        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+    #        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0]]
+
+    maze = create_maze(10,10)
+
+    # Print maze
+    for line in maze:
+        print(*line)
 
     # Create start and end point
     start = (0, 0)
