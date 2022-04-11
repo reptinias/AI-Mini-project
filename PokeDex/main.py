@@ -64,11 +64,11 @@ model.fit(trainRI, trainRL)
 acc = model.score(testRI, testRL)
 print("[INFO] raw pixel accuracy: {:.2f}%".format(acc * 100))
 
-image = np.array(cv2.imread("input.jpg"))
+image = np.array(cv2.imread("input4.jpg"))
 pixel = image_to_feature_vector(image)
 histo = extract_color_histogram(image)
 
-print(model.predict(image))
+print(model.predict(pixel.reshape(1,-1)))
 
 # train and evaluate a k-NN classifer on the histogram
 # representations
@@ -79,4 +79,4 @@ model.fit(trainFeat, trainLabels)
 acc = model.score(testFeat, testLabels)
 print("[INFO] histogram accuracy: {:.2f}%".format(acc * 100))
 
-print(model.predict(histo))
+print(model.predict(histo.reshape(1,-1)))
