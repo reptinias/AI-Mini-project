@@ -68,7 +68,7 @@ image = np.array(cv2.imread("input.jpg"))
 pixel = image_to_feature_vector(image)
 histo = extract_color_histogram(image)
 
-print(model.predict(pixel))
+print(model.predict(image))
 
 # train and evaluate a k-NN classifer on the histogram
 # representations
