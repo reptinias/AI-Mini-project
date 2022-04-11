@@ -1,5 +1,6 @@
 import random
 import time
+import numpy
 
 
 class Node():
@@ -115,37 +116,23 @@ def astar(maze, start, end):
             return False
 
 # function for random generate a maze
-def create_maze(width, height):
-    maze = []
-    for i in range(0, height):
-        line = []
-        for j in range(0, width):
-            if i != 0 and j != 0 and i != height-1 and j != width-1:
-                line.append(random.randint(0, 1))
-            else:
-                line.append(0)
-        maze.append(line)
+def generateMaze(width, height):
+    maze = numpy.empty((width, height))
+    for y in range(height):
+        for x in range(width):
+            maze[x][y] = random.randint(0, 1)
+
+    maze[0][0] = 0
+    maze[width-1][height-1] = 0
     return maze
 
 
 def main():
     # Create a maze
-    #maze = [[0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-    #        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-    #        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-    #        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-    #        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-    #        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    #        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-    #        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-    #        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-    #        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0]]
-
-    maze = create_maze(10,10)
+    maze = generateMaze(10, 10)
 
     # Print maze
-    for line in maze:
-        print(*line)
+    print(maze)
 
     # Create start and end point
     start = (0, 0)
