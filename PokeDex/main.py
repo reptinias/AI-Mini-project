@@ -3,6 +3,7 @@ from sklearn.model_selection import train_test_split
 import cv2
 import os
 from imutils import paths
+import numpy as np
 
 # resize the image to a fixed size to 32 x 32 pixels, then flatten the image into
 # a list of raw pixel intensities
@@ -63,6 +64,11 @@ model.fit(trainRI, trainRL)
 acc = model.score(testRI, testRL)
 print("[INFO] raw pixel accuracy: {:.2f}%".format(acc * 100))
 
+image = np.array(cv2.imread("input.jpg"))
+pixel = image_to_feature_vector(image)
+histo = extract_color_histogram(image)
+
+print(model.predict(pixel))
 
 # train and evaluate a k-NN classifer on the histogram
 # representations
@@ -73,3 +79,4 @@ model.fit(trainFeat, trainLabels)
 acc = model.score(testFeat, testLabels)
 print("[INFO] histogram accuracy: {:.2f}%".format(acc * 100))
 
+print(model.predict(histo))
